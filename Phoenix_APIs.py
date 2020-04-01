@@ -1,6 +1,7 @@
 import requests
 import time
 import traceback
+import json
 
 # Import Libs required for Bearer Token OAuth2.0
 from oauthlib.oauth2 import BackendApplicationClient
@@ -40,7 +41,8 @@ def _get_api_call(auth_token, api_url, api_path, nextpage):
     try:
         print 'Invoking API call'
         if response.status_code == 200:
-            print response.json()
+            json_object = response.json()
+            print json.dumps(json_object, indent=2)
             return response.json()['nextPageToken']
         elif response.status_code == 429:
             print 'Sleeping for 60 seconds'
@@ -115,5 +117,31 @@ get_api_call(auth_token, api_url, api_path)
 # Phoenix: API call to list all MSSQL Jobs across all Orgs.
 print 'MSSQL Jobs across all Orgs.'
 api_path = "phoenix/sqlserver/v1/orgs/" + str(0) + "/reports/jobs"
+get_api_call(auth_token, api_url, api_path)
+########################################################################
+
+########################################################################
+# VMWare
+
+# Phoenix: API call to list all VMWare Backup Sets across all Orgs.
+print 'VMWare Backup Sets across all Orgs.'
+api_path = "phoenix/vmware/v1/orgs/" + str(0) + "/reports/backupsets"
+get_api_call(auth_token, api_url, api_path)
+
+# Phoenix: API call to list all VMWare backup proxies across all Orgs.
+print 'VMWare backup proxies across all Orgs.'
+api_path = "phoenix/vmware/v1/orgs/" + str(0) + "/reports/proxies"
+get_api_call(auth_token, api_url, api_path)
+
+# Phoenix: API call to list all VMWare Jobs across all Orgs.
+print 'VMWare Jobs across all Orgs.'
+api_path = "phoenix/vmware/v1/orgs/" + str(0) + "/reports/jobs"
+get_api_call(auth_token, api_url, api_path)
+########################################################################
+
+########################################################################
+# Phoenix: API call to list all Backup Failure Alerts across all Orgs.
+print 'Backup Failure Alerts across all Orgs.'
+api_path = "phoenix/alerts/v1/orgs/" + str(0) + "/alerts/jobs/backupFailures"
 get_api_call(auth_token, api_url, api_path)
 ########################################################################
